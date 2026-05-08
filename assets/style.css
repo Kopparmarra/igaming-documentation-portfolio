@@ -678,3 +678,16 @@ p{margin:0 0 14px}
     grid-template-columns:1fr;
   }
 }
+
+
+/* v30: remove Spins KPI and use a two-card top row */
+.kpi-grid-primary{
+  grid-template-columns:250px 250px;
+  justify-content:start;
+  gap:12px;
+}
+@media(max-width:520px){
+  .kpi-grid-primary{
+    grid-template-columns:1fr;
+  }
+}
