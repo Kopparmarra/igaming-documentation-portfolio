@@ -72,17 +72,11 @@
     </div>
 
     <h2 id="summary">Key results</h2>
-    <div class="kpi-grid">
-      <div class="kpi"><span>Spins</span><strong id="kpi-spins">-</strong></div>
-      <div class="kpi"><span>Total wagered</span><strong id="kpi-wagered">-</strong></div>
-      <div class="kpi"><span>Total returned</span><strong id="kpi-returned">-</strong></div>
-      <div class="kpi"><span>Simulated RTP</span><strong id="kpi-rtp">-</strong></div>
-      <div class="kpi"><span>Theoretical RTP</span><strong>96.18%</strong></div>
+    <div class="kpi-grid kpi-grid-primary">
+      <div class="kpi kpi-large"><span>Simulated RTP</span><strong id="kpi-rtp">-</strong></div>
+      <div class="kpi kpi-large"><span>Theoretical RTP</span><strong>96.18%</strong></div>
       <div class="kpi"><span>Difference</span><strong id="kpi-diff">-</strong></div>
-      <div class="kpi"><span>Wins</span><strong id="kpi-wins">-</strong></div>
-      <div class="kpi"><span>Pushes</span><strong id="kpi-pushes">-</strong></div>
-      <div class="kpi emphasis"><span>Jackpots</span><strong id="kpi-jackpots">-</strong><small>White 3-of-a-kind (572x)</small></div>
-      <div class="kpi"><span>Highest single payout</span><strong id="kpi-max-win">-</strong></div>
+      <div class="kpi"><span>Spins</span><strong id="kpi-spins">-</strong></div>
     </div>
 
 
@@ -352,14 +346,8 @@ function render(result) {
   const diff = result.simulatedRtp - THEORETICAL_RTP;
 
   setText('kpi-spins', fmtNumber(result.spins));
-  setText('kpi-wagered', fmtNumber(result.totalWagered));
-  setText('kpi-returned', fmtNumber(result.totalReturned));
   setText('kpi-rtp', fmtPct(result.simulatedRtp));
   setText('kpi-diff', (diff >= 0 ? '+' : '') + diff.toFixed(2) + ' pp');
-  setText('kpi-wins', fmtNumber(result.wins));
-  setText('kpi-pushes', fmtNumber(result.pushes));
-  setText('kpi-jackpots', fmtNumber(result.jackpots));
-  setText('kpi-max-win', fmtNumber(result.maxSinglePayout));
   setText('table-sim-rtp', fmtPct(result.simulatedRtp));
   setText('table-diff', (diff >= 0 ? '+' : '') + diff.toFixed(2) + ' percentage points');
 
