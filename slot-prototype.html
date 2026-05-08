@@ -19,18 +19,10 @@
   body::before{display:none;}
   .game-wrapper{display:flex;flex-direction:column;align-items:center;
     gap:10px;width:100%;max-width:420px;padding:0 12px;}
-  .debug-controls{display:flex;justify-content:center;align-items:center;gap:14px;
-    width:100%;max-width:420px;margin:10px auto 0;}
-  .debug-btn{background:#f1ebdf;border:1px solid #d6cab3;color:#6a6357;
-    font-size:14px;line-height:1;padding:9px 16px;border-radius:8px;cursor:pointer;
-    min-width:94px;text-align:center;}
-  .debug-btn:hover{background:#f7f2e8;}
-  #log-box{width:100%;max-width:420px;margin:10px auto 0;
-    background:rgba(18,18,22,.96);border:1px solid #333;border-radius:10px;
-    padding:14px 16px;max-height:240px;overflow-y:auto;
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:14px;line-height:1.55;color:#8dff9b;display:none;white-space:pre-wrap;
-    word-break:break-word;box-shadow:0 10px 24px rgba(0,0,0,.14);text-align:left;}
+  
+  
+  
+  
   .logo{font-size:12px;font-weight:300;letter-spacing:.4em;color:var(--muted);text-transform:uppercase;}
   .machine{background:var(--surface);border:1px solid var(--border);border-radius:24px;
     padding:22px;width:100%;display:flex;flex-direction:column;gap:16px;
@@ -246,11 +238,6 @@
       </div>
     </div>
   </div>
-  <div class="debug-controls">
-    <button id="log-toggle" class="debug-btn" onclick="toggleLog()">Log</button>
-    <button id="log-copy" class="debug-btn" onclick="copyLog()">Copy Log</button>
-  </div>
-  <div id="log-box"></div>
 </div>
 
 <script>
@@ -258,27 +245,9 @@
 
 
 var _logs=[];
-function log(msg){
-  _logs.push(msg);
-  if(_logs.length>200) _logs.shift();
-  var box=document.getElementById('log-box');
-  if(box && box.style.display!=='none'){
-    box.innerHTML=_logs.join('<br>');
-    box.scrollTop=box.scrollHeight;
-  }
-}
-function toggleLog(){
-  var box=document.getElementById('log-box');
-  box.style.display=(box.style.display==='none' || box.style.display==='') ? 'block' : 'none';
-  if(box.style.display!=='none'){ box.innerHTML=_logs.join('<br>'); box.scrollTop=box.scrollHeight; }
-}
-function copyLog(){
-  var txt=_logs.join('\n');
-  navigator.clipboard.writeText(txt).then(function(){
-    document.getElementById('log-copy').textContent='Copied!';
-    setTimeout(function(){document.getElementById('log-copy').textContent='Copy Log';},1500);
-  });
-}
+
+
+
 var SYMBOLS = [
   {id:'red',    label:'Red',    cls:'c-red',    hex:'#ff6b6b', rgb:'255,107,107', weight:30},
   {id:'orange', label:'Orange', cls:'c-orange', hex:'#ff9f43', rgb:'255,159,67',  weight:25},
@@ -436,11 +405,8 @@ function spinReel(ri,targetIndex,duration,onDone){
 
   var startTs=null, lastTs=null;
   var frameCount=0;
-  log('[spinReel] START ri='+ri+' gen='+myGen+' cs='+cs+' dur='+duration+' targetIndex='+targetIndex);
-
   function frame(ts){
     if(reel.gen!==myGen){
-      log('[frame] STALE ri='+ri);
       return;
     }
     if(startTs===null){ startTs=ts; lastTs=ts; }
@@ -467,7 +433,6 @@ function spinReel(ri,targetIndex,duration,onDone){
       reel.cs=cs;
       setStripY(ri,reel.pos,cs);
       reel.animFrame=null;
-      log('[frame] DONE ri='+ri+' gen='+myGen+' frames='+frameCount);
       onDone();
     }
   }
@@ -492,16 +457,14 @@ function ensureAudio(){
     }
     audioUnlocked=true;
   } catch(e){
-    log('[audio] '+e.message);
-  }
+    }
 }
 
 // Resume audio context when tab becomes visible again
 document.addEventListener('visibilitychange', function(){
   if(document.visibilityState === 'visible' && audioCtx && audioCtx.state === 'suspended'){
     audioCtx.resume().then(function(){
-      log('[audio] context resumed on visibility');
-    });
+      });
   }
 });
 function adsrGain(g, now, attack, decay, sustain, release, peak){
@@ -604,7 +567,7 @@ function loadState(){
   // Clear any previously saved local demo state so bet size does not persist.
   try{
     localStorage.removeItem(STORAGE_KEY);
-  } catch(e){ log('[loadState reset] '+e.message); }
+  } catch(e){  }
 }
 function updateStatsUI(){
   var spinsEl=document.getElementById('stats-spins');
@@ -748,16 +711,13 @@ function spin(){
   var done=0;
   var spinId=++currentSpinId;
   var reelDone=[false,false,false];
-  log('[spin] NEW spinId='+spinId+' targets='+targets.join(','));
   function makeOnDone(ri){
     return function(){
-      log('[onDone] ri='+ri+' spinId='+spinId+' currentSpinId='+currentSpinId+' reelDone='+reelDone+' done='+done);
-      if(currentSpinId!==spinId){ log('[onDone] STALE spinId mismatch'); return; }
-      if(reelDone[ri]){ log('[onDone] DOUBLE-FIRE ri='+ri); return; }
+      if(currentSpinId!==spinId){ return; }
+      if(reelDone[ri]){ return; }
       reelDone[ri]=true;
       done++;
       playReelStop(ri);
-      log('[onDone] ACCEPTED ri='+ri+' done='+done);
       if(done===NUM_REELS) evaluate();
     };
   }
@@ -770,8 +730,6 @@ function evaluate(){
   // readCenter() is the single source of truth — it reads the actual
   // snapped visual position, eliminating any index/snap drift.
   var a=readCenter(0), b=readCenter(1), c=readCenter(2);
-  log('[evaluate] symbols='+[a,b,c].join(','));
-
   if(a===b && b===c){
     var payout=bet*PAYOUTS[a];
     updateBalance(payout);
@@ -805,8 +763,7 @@ function highlight(idxs, targets){
     var domIndex=getVisibleCenterDomIndex(ri);
     var normalized=((domIndex%STRIP_LEN)+STRIP_LEN)%STRIP_LEN;
     if(expected!==null && normalized!==expected){
-      log('[highlight] CENTER_MISMATCH ri='+ri+' expected='+expected+' domIndex='+domIndex+' normalized='+normalized);
-    }
+      }
     var cell=document.getElementById('cell-'+ri+'-'+domIndex);
     if(!cell && expected!==null){
       cell=document.getElementById('cell-'+ri+'-'+expected) || document.getElementById('cell-'+ri+'-'+(expected+STRIP_LEN));
