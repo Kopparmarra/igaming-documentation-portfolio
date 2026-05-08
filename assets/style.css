@@ -636,3 +636,45 @@ p{margin:0 0 14px}
 #kpi-diff.diff-neutral{
   color:#1c1c1c !important;
 }
+
+
+/* v29: remove Difference card and color Simulated RTP instead */
+.kpi-grid-primary{
+  grid-template-columns:250px 250px 140px;
+  justify-content:start;
+  gap:12px;
+}
+#kpi-rtp-box{
+  transition:background-color .2s ease, border-color .2s ease;
+}
+#kpi-rtp-box.rtp-positive{
+  background:#f3faf4 !important;
+  border-color:#b9d8bd !important;
+}
+#kpi-rtp-box.rtp-negative{
+  background:#fbf3f3 !important;
+  border-color:#dfbaba !important;
+}
+#kpi-rtp-box.rtp-neutral{
+  background:#faf7f0 !important;
+  border-color:#d8cdbb !important;
+}
+#kpi-rtp.rtp-positive{
+  color:#2f6b3a !important;
+}
+#kpi-rtp.rtp-negative{
+  color:#8a2e2e !important;
+}
+#kpi-rtp.rtp-neutral{
+  color:#1c1c1c !important;
+}
+@media(max-width:900px){
+  .kpi-grid-primary{
+    grid-template-columns:250px 250px;
+  }
+}
+@media(max-width:520px){
+  .kpi-grid-primary{
+    grid-template-columns:1fr;
+  }
+}

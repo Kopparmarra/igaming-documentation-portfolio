@@ -73,9 +73,8 @@
 
     <h2 id="summary">Key results</h2>
     <div class="kpi-grid kpi-grid-primary">
-      <div class="kpi kpi-large"><span>Simulated RTP</span><strong id="kpi-rtp">-</strong></div>
+      <div class="kpi kpi-large" id="kpi-rtp-box"><span>Simulated RTP</span><strong id="kpi-rtp">-</strong></div>
       <div class="kpi kpi-large"><span>Theoretical RTP</span><strong>96.18%</strong></div>
-      <div class="kpi" id="kpi-diff-box"><span>Difference</span><strong id="kpi-diff">-</strong></div>
       <div class="kpi"><span>Spins</span><strong id="kpi-spins">-</strong></div>
     </div>
 
@@ -343,33 +342,33 @@ function setText(id, value) {
 }
 
 
-function setDifferenceState(diff){
-  const box = document.getElementById('kpi-diff-box');
-  const value = document.getElementById('kpi-diff');
+
+function setRtpState(diff){
+  const box = document.getElementById('kpi-rtp-box');
+  const value = document.getElementById('kpi-rtp');
   if(!box || !value) return;
 
-  box.classList.remove('diff-positive','diff-negative','diff-neutral');
-  value.classList.remove('diff-positive','diff-negative','diff-neutral');
+  box.classList.remove('rtp-positive','rtp-negative','rtp-neutral');
+  value.classList.remove('rtp-positive','rtp-negative','rtp-neutral');
 
   if(diff > 0){
-    box.classList.add('diff-positive');
-    value.classList.add('diff-positive');
+    box.classList.add('rtp-positive');
+    value.classList.add('rtp-positive');
   } else if(diff < 0){
-    box.classList.add('diff-negative');
-    value.classList.add('diff-negative');
+    box.classList.add('rtp-negative');
+    value.classList.add('rtp-negative');
   } else {
-    box.classList.add('diff-neutral');
-    value.classList.add('diff-neutral');
+    box.classList.add('rtp-neutral');
+    value.classList.add('rtp-neutral');
   }
 }
 
 function render(result) {
   const diff = result.simulatedRtp - THEORETICAL_RTP;
-  setDifferenceState(diff);
+  setRtpState(diff);
 
   setText('kpi-spins', fmtNumber(result.spins));
   setText('kpi-rtp', fmtPct(result.simulatedRtp));
-  setText('kpi-diff', (diff >= 0 ? '+' : '') + diff.toFixed(2) + ' pp');
   setText('table-sim-rtp', fmtPct(result.simulatedRtp));
   setText('table-diff', (diff >= 0 ? '+' : '') + diff.toFixed(2) + ' percentage points');
 
