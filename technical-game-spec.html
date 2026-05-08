@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Technical Game Specification</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="index.html">iGaming Documentation Portfolio</a>
+    <nav class="links">
+      <a href="index.html">Overview</a>
+      <a href="playable-prototype.html">Prototype</a>
+      <a href="game-rules-paytable.html">Rules</a>
+      <a href="payout-logic-rtp.html">RTP</a>
+      <a href="simulation-rtp-verification.html">Simulation</a>
+      <a href="technical-game-spec.html">Spec</a>
+      <a href="compliance-malta.html">Compliance</a>
+      <a href="verification.html">Verification</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+<section class="hero">
+  <div class="container">
+    <div class="kicker">04 / Technical specification</div>
+    <h1>Technical Game Specification</h1>
+    <p class="lead">Internal behavior specification for the sample slot.</p>
+  </div>
+</section>
+<section class="container layout">
+  <aside class="sidebar">
+    <a href="#states">State flow</a>
+    <a href="#reels">Reels</a>
+    <a href="#balance">Balance</a>
+    <a href="#evaluation">Evaluation</a>
+    <a href="#change">Change impact</a>
+  </aside>
+  <article class="article">
+    <h2 id="states">State flow</h2>
+    <table class="table">
+      <tr><th>State</th><th>Expected behavior</th></tr>
+      <tr><td>Idle</td><td>Player can select bet and start spin.</td></tr>
+      <tr><td>Spin start</td><td>Bet is deducted, previous result cleared, spin button disabled.</td></tr>
+      <tr><td>Reels spinning</td><td>Each reel animates to a target position.</td></tr>
+      <tr><td>Evaluation</td><td>Center-row symbols are read after all reels stop.</td></tr>
+      <tr><td>Result</td><td>Payout is applied once and result message is shown.</td></tr>
+    </table>
+
+    <h2 id="reels">Reels</h2>
+    <p>
+      The evaluation row is the center visible row. Reel stop order is sequential. Visual result highlighting must match the evaluated symbols.
+    </p>
+
+    <h2 id="balance">Balance</h2>
+    <p>
+      Balance is changed in two controlled steps: deduction at spin start and payout addition after result evaluation.
+    </p>
+
+    <h2 id="evaluation">Evaluation</h2>
+    <pre class="code">if reel1 == reel2 == reel3:
+    payout = bet × symbol_multiplier
+elif reel1 == reel2:
+    payout = bet
+else:
+    payout = 0</pre>
+
+    <h2 id="change">Change impact</h2>
+    <table class="table">
+      <tr><th>Change</th><th>Required documentation update</th></tr>
+      <tr><td>Symbol weight</td><td>RTP calculation, QA tests, technical spec.</td></tr>
+      <tr><td>Payout multiplier</td><td>Paytable, RTP calculation, rules.</td></tr>
+      <tr><td>Win condition</td><td>Rules, technical spec, verification matrix.</td></tr>
+      <tr><td>Reel generation model</td><td>Certification model and RTP evidence.</td></tr>
+    </table>
+  </article>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">Documentation sample: slot rules, payout logic, RTP, technical specification, MGA-oriented compliance and Verification evidence.</div>
+</footer>
+
+</body>
+</html>

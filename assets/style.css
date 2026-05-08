@@ -1,0 +1,483 @@
+
+:root{
+  --bg:#f6f5f1;
+  --paper:#ffffff;
+  --ink:#171717;
+  --muted:#66635d;
+  --line:#d7d1c7;
+  --accent:#7a6337;
+  --soft:#eee7da;
+  --radius:8px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:15px;
+  line-height:1.55;
+}
+a{color:inherit}
+.container{width:min(1060px, calc(100% - 36px));margin:0 auto}
+.header{background:#fff;border-bottom:1px solid var(--line)}
+.nav{min-height:56px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.brand{font-weight:700;text-decoration:none}
+.links{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.links a{text-decoration:none}.links a:hover{text-decoration:underline;color:var(--ink)}
+.main{padding:32px 0 54px}
+.hero{padding:26px 0 28px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--accent);margin-bottom:8px}
+h1,h2,h3{line-height:1.22;margin:0 0 12px}
+h1{font-size:32px;letter-spacing:-.015em}
+h2{font-size:22px;margin-top:34px}
+h3{font-size:17px;margin-top:22px}
+p{margin:0 0 14px}
+.lead{font-size:17px;color:var(--muted);max-width:760px}
+.cards{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px;text-decoration:none;min-height:158px}
+.card small{display:block;color:var(--accent);font-weight:700;font-size:11px;margin-bottom:7px}
+.card h2{font-size:16px;margin:0 0 8px}
+.card p{font-size:13px;color:var(--muted);margin:0}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:start}
+.sidebar{position:sticky;top:16px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:12px}
+.sidebar a{display:block;color:var(--muted);font-size:13px;text-decoration:none;padding:7px 6px}
+.sidebar a:hover{text-decoration:underline;color:var(--ink)}
+.article{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.article ul{padding-left:20px}.article li{margin-bottom:7px}
+.table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14px}
+.table th,.table td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+.table th{background:#faf9f6;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.note{background:var(--soft);border-left:4px solid var(--accent);padding:12px 14px;margin:16px 0}
+.code{background:#f2f0eb;border:1px solid var(--line);border-radius:var(--radius);padding:14px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px}
+.btn{display:inline-block;background:#171717;color:#fff;text-decoration:none;border-radius:6px;padding:9px 13px;font-weight:700;font-size:13px}
+.prototype-frame{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#0a0a0f;margin-top:12px}
+.prototype-frame iframe{width:100%;height:690px;border:0;display:block}
+.footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;padding:20px 0}
+@media(max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.sidebar{position:relative;top:auto}}
+@media(max-width:600px){h1{font-size:27px}.cards{grid-template-columns:1fr}.article{padding:20px}.nav{flex-direction:column;align-items:flex-start;padding:14px 0}}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 22px}
+.kpi{background:#faf9f6;border:1px solid var(--line);border-radius:var(--radius);padding:13px}
+.kpi span{display:block;color:var(--muted);font-size:12px;margin-bottom:3px}
+.kpi strong{font-size:22px}
+.controls-row{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin:14px 0 18px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:12px;color:var(--muted)}
+.field input{border:1px solid var(--line);border-radius:6px;padding:9px;width:130px;font:inherit;background:#fff}
+.secondary-btn{display:inline-block;background:#fff;color:#171717;border:1px solid var(--line);text-decoration:none;border-radius:6px;padding:9px 13px;font-weight:700;font-size:13px;cursor:pointer}
+.chart-box{border:1px solid var(--line);border-radius:var(--radius);background:#fff;margin:14px 0 24px;padding:12px;overflow:auto}
+.chart-box svg{width:100%;height:260px;display:block}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:8px 0 0}
+.legend span::before{content:"";display:inline-block;width:18px;height:2px;background:#171717;vertical-align:middle;margin-right:6px}
+.legend .target::before{background:#8a6f3e}
+.details{margin-top:18px}
+.details summary{cursor:pointer;font-weight:700}
+@media(max-width:980px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.kpi-grid{grid-template-columns:1fr}.field input{width:100%}.controls-row{display:grid}}
+
+.chart-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+.mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.kpi.emphasis{background:var(--soft)}
+.kpi small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.legend.dots span::before{height:10px;width:10px;border-radius:50%;background:#171717}
+.legend.dots .rare::before{background:#7a6337}
+.legend.dots .jackpot::before{background:#b0893a}
+.chart-empty{
+  border:1px dashed var(--line);
+  border-radius:var(--radius);
+  padding:22px;
+  background:#faf9f6;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:10px;
+}
+@media(max-width:980px){.mini-grid{grid-template-columns:1fr}}
+
+/* Simulation v3: move important results above the fold */
+.kpi-grid{grid-template-columns:repeat(5,1fr)}
+#summary + .kpi-grid{margin-top:10px}
+#distribution{margin-top:22px}
+.chart-box svg#distribution-chart{height:240px}
+.chart-box svg#rare-chart{height:155px}
+.chart-box svg#rtp-chart{height:230px}
+@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.kpi-grid{grid-template-columns:1fr}}
+
+/* Simulation v4: compact above-the-fold dashboard */
+.hero{padding:16px 0 18px;margin-bottom:18px}
+.main{padding:18px 0 42px}
+.article{padding:20px}
+.article h2{font-size:18px;margin-top:18px;margin-bottom:8px}
+.article p{margin-bottom:8px}
+.controls-row{margin:8px 0 10px}
+.field label{font-size:11px}
+.field input{padding:7px;width:105px}
+.btn,.secondary-btn{padding:8px 11px;font-size:12px}
+.small-note{padding:8px 10px;font-size:13px;margin:8px 0 10px}
+.kpi-grid{
+  grid-template-columns:repeat(10,1fr);
+  gap:6px;
+  margin:8px 0 12px;
+}
+.kpi{
+  padding:8px 9px;
+  min-width:0;
+}
+.kpi span{
+  font-size:10px;
+  margin-bottom:1px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.kpi strong{
+  font-size:15px;
+  line-height:1.2;
+  white-space:nowrap;
+}
+.kpi small{display:none}
+.chart-box{
+  margin:6px 0 12px;
+  padding:8px;
+}
+.compact-chart svg#rtp-chart{height:205px}
+.compact-chart svg#distribution-chart{height:165px}
+.compact-chart svg#rare-chart{height:122px}
+.legend{font-size:12px;margin:4px 0 0}
+.chart-note{font-size:12px;margin:4px 0 0}
+.top-chart-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  align-items:start;
+}
+.top-chart-grid h2{margin-top:6px}
+.layout{
+  grid-template-columns:190px 1fr;
+  gap:18px;
+}
+.sidebar{padding:10px}
+.sidebar a{font-size:12px;padding:5px 6px}
+@media(max-width:1180px){
+  .kpi-grid{grid-template-columns:repeat(5,1fr)}
+}
+@media(max-width:900px){
+  .top-chart-grid{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:600px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+
+/* Simulation v5: align Win distribution and Jackpot timeline */
+.top-chart-grid{
+  align-items:stretch;
+}
+.top-chart-grid > div{
+  display:flex;
+  flex-direction:column;
+}
+.top-chart-grid > div .chart-box{
+  flex:1;
+  min-height:260px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+.top-chart-grid > div .chart-box svg{
+  flex:1 0 auto;
+}
+.top-chart-grid > div h2{
+  min-height:28px;
+}
+#distribution-chart{
+  height:170px !important;
+}
+#rare-chart{
+  height:170px !important;
+}
+#rare-note{
+  margin-top:8px;
+  min-height:18px;
+}
+
+
+/* Simulation v6: cleaner aligned visualization cards */
+.top-chart-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  align-items:stretch;
+}
+.viz-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:12px 14px 10px;
+  min-height:318px;
+  display:flex;
+  flex-direction:column;
+}
+.viz-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  min-height:34px;
+  margin-bottom:6px;
+}
+.viz-head h2{
+  margin:0;
+  font-size:18px;
+  line-height:1.2;
+}
+.viz-head span{
+  color:var(--muted);
+  font-size:12px;
+  white-space:nowrap;
+}
+.viz-card svg{
+  width:100%;
+  height:230px !important;
+  display:block;
+  flex:1 1 auto;
+}
+.viz-card .chart-note{
+  min-height:20px;
+  margin:4px 0 0;
+  font-size:12px;
+  color:var(--muted);
+}
+.top-chart-grid .chart-box{
+  min-height:0;
+}
+@media(max-width:900px){
+  .top-chart-grid{grid-template-columns:1fr}
+}
+
+
+/* Prototype page: show the full embedded game without internal scrolling */
+.prototype-frame-fit{
+  padding:14px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  overflow:hidden;
+  background:#05060a;
+}
+.prototype-frame-fit iframe{
+  width:100%;
+  max-width:560px;
+  height:860px;
+  border:0;
+  display:block;
+  margin:0 auto;
+  background:#05060a;
+  border-radius:18px;
+}
+@media(max-width:900px){
+  .prototype-frame-fit iframe{
+    max-width:100%;
+    height:820px;
+  }
+}
+@media(max-width:600px){
+  .prototype-frame-fit iframe{
+    height:760px;
+  }
+}
+
+
+/* Prototype page v9: reduce empty black area around embedded game */
+.prototype-frame-fit{
+  padding:6px;
+}
+.prototype-frame-fit iframe{
+  max-width:520px;
+  height:720px;
+}
+@media(max-width:900px){
+  .prototype-frame-fit iframe{
+    height:700px;
+  }
+}
+@media(max-width:600px){
+  .prototype-frame-fit iframe{
+    height:660px;
+  }
+}
+
+
+/* v10: external reference links */
+.article a[target="_blank"]{
+  color:#5f4c27;
+  font-weight:700;
+}
+.article a[target="_blank"]:hover{
+  text-decoration:none;
+}
+
+
+/* v11: improve readability of the Rare wins / jackpot empty state */
+.viz-head span{
+  color:#5d5750;
+  font-size:13px;
+  font-weight:600;
+}
+.viz-card .chart-note{
+  min-height:22px;
+  margin:6px 0 0;
+  font-size:14px;
+  color:#4e4942;
+}
+
+
+/* v12: cleaner no-rare-events state */
+.viz-card .chart-note{
+  text-align:center;
+  font-size:13px;
+  color:#625c54;
+}
+
+
+/* v13: simpler normal-font empty state for rare wins / jackpot */
+#rare-chart text,
+#distribution-chart text,
+#rtp-chart text{
+  font-family: Arial, Helvetica, sans-serif;
+}
+.viz-card .chart-note{
+  text-align:center;
+  font-size:13px;
+  color:#5d5750;
+}
+
+
+/* v14: cleaner rare wins / jackpot layout */
+#rare-chart{
+  height:185px !important;
+}
+.viz-card .chart-note{
+  text-align:left;
+  font-size:12px;
+  line-height:1.4;
+  color:#625c54;
+  margin:2px 0 0;
+  min-height:18px;
+}
+#rare-note{
+  padding-left:2px;
+}
+
+
+/* v15: readable HTML empty state for Rare wins / jackpot */
+.rare-empty-banner{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  align-items:flex-start;
+  justify-content:center;
+  background:#f7f3eb;
+  border:1px solid #e5dccb;
+  border-radius:10px;
+  padding:12px 14px;
+  margin:4px 0 10px;
+}
+.rare-empty-banner strong{
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:16px;
+  line-height:1.3;
+  font-weight:700;
+  color:#3f382f;
+}
+.rare-empty-banner span{
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:13px;
+  line-height:1.35;
+  color:#5f584f;
+}
+#rare-chart{
+  height:155px !important;
+}
+.viz-card .chart-note{
+  text-align:left;
+  font-size:13px;
+  line-height:1.35;
+  color:#5d5750;
+  margin:4px 0 0;
+  min-height:18px;
+}
+#rare-note{
+  padding-left:2px;
+}
+
+
+/* v16: robust show/hide behavior for rare wins empty-state banner */
+.rare-empty-banner[hidden]{
+  display:none !important;
+}
+
+
+/* v17: keep Rare wins / jackpot card height fixed regardless of state */
+.rare-banner-slot{
+  height:86px;
+  margin:4px 0 10px;
+}
+.rare-empty-banner{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  align-items:flex-start;
+  justify-content:center;
+  height:100%;
+  background:#f7f3eb;
+  border:1px solid #e5dccb;
+  border-radius:10px;
+  padding:12px 14px;
+}
+.rare-empty-banner strong{
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:16px;
+  line-height:1.25;
+  font-weight:700;
+  color:#3f382f;
+}
+.rare-empty-banner span{
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:13px;
+  line-height:1.35;
+  color:#5f584f;
+}
+
+
+/* v18: portfolio refinement */
+.rare-banner-slot{
+  height:86px;
+}
+.rare-empty-banner{
+  visibility:hidden;
+}
+#rare-chart text,
+#distribution-chart text,
+#rtp-chart text{
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+
+/* v19: remove new-tab button and use beige background around the embedded slot */
+.prototype-frame{
+  background:#f7f3eb;
+  border:1px solid #e5dccb;
+}
+.prototype-frame-fit{
+  background:#f7f3eb;
+  padding:10px;
+  border-color:#e5dccb;
+}
+.prototype-frame-fit iframe{
+  background:transparent;
+  box-shadow:none;
+}

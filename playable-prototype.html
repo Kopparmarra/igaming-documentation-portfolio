@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Playable Slot Prototype</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="index.html">iGaming Documentation Portfolio</a>
+    <nav class="links">
+      <a href="index.html">Overview</a>
+      <a href="playable-prototype.html">Prototype</a>
+      <a href="game-rules-paytable.html">Rules</a>
+      <a href="payout-logic-rtp.html">RTP</a>
+      <a href="simulation-rtp-verification.html">Simulation</a>
+      <a href="technical-game-spec.html">Spec</a>
+      <a href="compliance-malta.html">Compliance</a>
+      <a href="verification.html">Verification</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+<section class="hero">
+  <div class="container">
+    <div class="kicker">01 / Prototype</div>
+    <h1>Playable Slot Prototype</h1>
+    <p class="lead">A simple browser slot used as the sample product for the documentation set.</p>
+  </div>
+</section>
+<section class="container layout">
+  <aside class="sidebar">
+    <a href="#demo">Demo</a>
+    <a href="#scope">Scope</a>
+    <a href="#limitations">Limitations</a>
+  </aside>
+  <article class="article">
+    <h2 id="demo">Demo</h2>
+        <div class="prototype-frame prototype-frame-fit">
+      <iframe src="slot-prototype.html" title="Playable slot prototype" scrolling="no"></iframe>
+    </div>
+
+    <h2 id="scope">Scope</h2>
+    <table class="table">
+      <tr><th>Area</th><th>Implemented</th></tr>
+      <tr><td>Game type</td><td>Three-reel color slot prototype.</td></tr>
+      <tr><td>Symbols</td><td>Eight weighted color symbols.</td></tr>
+      <tr><td>Evaluation</td><td>Center-row, left-to-right matching.</td></tr>
+      <tr><td>Outcomes</td><td>Three of a kind pays multiplier. First two matching symbols return the bet.</td></tr>
+      <tr><td>Bet handling</td><td>Bet is deducted at spin start. Payout is added after evaluation.</td></tr>
+    </table>
+
+    <h2 id="limitations">Limitations</h2>
+    <p>
+      This is a client-side demonstration. A production iGaming game would normally require controlled server-side outcome generation,
+      certified RNG handling, secure session state, audit logs and controlled release management.
+    </p>
+  </article>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">Documentation sample: slot rules, payout logic, RTP, technical specification, MGA-oriented compliance and Verification evidence.</div>
+</footer>
+
+</body>
+</html>

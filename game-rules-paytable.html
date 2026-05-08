@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Game Rules / Paytable</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="index.html">iGaming Documentation Portfolio</a>
+    <nav class="links">
+      <a href="index.html">Overview</a>
+      <a href="playable-prototype.html">Prototype</a>
+      <a href="game-rules-paytable.html">Rules</a>
+      <a href="payout-logic-rtp.html">RTP</a>
+      <a href="simulation-rtp-verification.html">Simulation</a>
+      <a href="technical-game-spec.html">Spec</a>
+      <a href="compliance-malta.html">Compliance</a>
+      <a href="verification.html">Verification</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+<section class="hero">
+  <div class="container">
+    <div class="kicker">02 / Rules and paytable</div>
+    <h1>Game Rules / Paytable</h1>
+    <p class="lead">Player-facing documentation for the sample slot.</p>
+  </div>
+</section>
+<section class="container layout">
+  <aside class="sidebar">
+    <a href="#objective">Objective</a>
+    <a href="#bet">Bet</a>
+    <a href="#outcomes">Outcomes</a>
+    <a href="#paytable">Paytable</a>
+  </aside>
+  <article class="article">
+    <h2 id="objective">Objective</h2>
+    <p>
+      The objective is to match colors on the center row. Results are evaluated from left to right after all reels have stopped.
+    </p>
+
+    <h2 id="bet">Bet</h2>
+    <p>
+      The selected bet is deducted when the spin starts. If the player balance is lower than the selected bet, the spin is blocked.
+    </p>
+
+    <h2 id="outcomes">Outcomes</h2>
+    <table class="table">
+      <tr><th>Outcome</th><th>Result</th></tr>
+      <tr><td>Three matching symbols</td><td>Player receives bet multiplied by the symbol payout.</td></tr>
+      <tr><td>First two reels match, third differs</td><td>Push. The original bet is returned.</td></tr>
+      <tr><td>No left-to-right match</td><td>No payout.</td></tr>
+    </table>
+
+    <h2 id="paytable">Paytable</h2>
+    <table class="table">
+      <tr><th>Symbol</th><th>Symbol weight</th><th>Three-of-a-kind payout</th></tr>
+<tr><td>Red</td><td>30</td><td>11x bet</td></tr>
+<tr><td>Orange</td><td>25</td><td>17x bet</td></tr>
+<tr><td>Yellow</td><td>20</td><td>29x bet</td></tr>
+<tr><td>Green</td><td>15</td><td>46x bet</td></tr>
+<tr><td>Blue</td><td>10</td><td>86x bet</td></tr>
+<tr><td>Purple</td><td>6</td><td>172x bet</td></tr>
+<tr><td>Pink</td><td>3</td><td>343x bet</td></tr>
+<tr><td>White</td><td>1</td><td>572x bet</td></tr>
+    </table>
+  </article>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">Documentation sample: slot rules, payout logic, RTP, technical specification, MGA-oriented compliance and Verification evidence.</div>
+</footer>
+
+</body>
+</html>

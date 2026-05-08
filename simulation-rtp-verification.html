@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulation / RTP Verification</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="index.html">iGaming Documentation Portfolio</a>
+    <nav class="links">
+      <a href="index.html">Overview</a>
+      <a href="playable-prototype.html">Prototype</a>
+      <a href="game-rules-paytable.html">Rules</a>
+      <a href="payout-logic-rtp.html">RTP</a>
+      <a href="simulation-rtp-verification.html">Simulation</a>
+      <a href="technical-game-spec.html">Spec</a>
+      <a href="compliance-malta.html">Compliance</a>
+      <a href="verification.html">Verification</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+<section class="hero">
+  <div class="container">
+    <div class="kicker">04 / Simulation</div>
+    <h1>Simulation / RTP Verification</h1>
+    <p class="lead">
+      Run the slot logic repeatedly and compare simulated RTP, win distribution and jackpot events.
+    </p>
+  </div>
+</section>
+
+<section class="container layout">
+  <aside class="sidebar">
+    <a href="#run">Run simulation</a>
+    <a href="#summary">Key results</a>
+    <a href="#chart">Cumulative RTP</a>
+    <a href="#distribution">Win distribution</a>
+    <a href="#jackpots">High-impact timeline</a>
+    <a href="#rtp">RTP comparison</a>
+    <a href="#outcomes">Outcome breakdown</a>
+    <a href="#log">Sample spin log</a>
+    <a href="#method">Method</a>
+  </aside>
+
+  <article class="article">
+    <h2 id="run">Run simulation</h2>
+    <p>
+      Default: 1,000 spins, 10 credits per spin. Each run creates a new random sample.
+    </p>
+
+    <div class="controls-row">
+      <div class="field">
+        <label for="spin-count">Spins</label>
+        <input id="spin-count" type="number" min="10" max="100000" step="10" value="1000">
+      </div>
+      <div class="field">
+        <label for="bet-size">Bet size</label>
+        <input id="bet-size" type="number" min="1" max="10000" step="1" value="10">
+      </div>
+      <button class="btn" id="run-btn" type="button">Run simulation</button>
+      <button class="secondary-btn" id="reset-btn" type="button">Reset to 1000 spins</button>
+    </div>
+    <div class="note small-note">
+      New runs update the figures and charts below immediately. The simulation uses the same weighted-pool model
+      as the RTP page, while the embedded prototype may show a slightly different exact strip RTP due to generated reel strips.
+    </div>
+
+    <h2 id="summary">Key results</h2>
+    <div class="kpi-grid">
+      <div class="kpi"><span>Spins</span><strong id="kpi-spins">-</strong></div>
+      <div class="kpi"><span>Total wagered</span><strong id="kpi-wagered">-</strong></div>
+      <div class="kpi"><span>Total returned</span><strong id="kpi-returned">-</strong></div>
+      <div class="kpi"><span>Simulated RTP</span><strong id="kpi-rtp">-</strong></div>
+      <div class="kpi"><span>Theoretical RTP</span><strong>96.18%</strong></div>
+      <div class="kpi"><span>Difference</span><strong id="kpi-diff">-</strong></div>
+      <div class="kpi"><span>Wins</span><strong id="kpi-wins">-</strong></div>
+      <div class="kpi"><span>Pushes</span><strong id="kpi-pushes">-</strong></div>
+      <div class="kpi emphasis"><span>Jackpots</span><strong id="kpi-jackpots">-</strong><small>White 3-of-a-kind (572x)</small></div>
+      <div class="kpi"><span>Highest single payout</span><strong id="kpi-max-win">-</strong></div>
+    </div>
+
+
+    <h2 id="chart">Cumulative RTP</h2>
+    <div class="chart-box compact-chart">
+      <svg id="rtp-chart" viewBox="0 0 900 220" preserveAspectRatio="none" aria-label="Cumulative RTP chart"></svg>
+      <div class="legend"><span>Simulated RTP</span><span class="target">Theoretical RTP</span></div>
+      <p class="chart-note">The chart starts at spin 10 and uses a fixed Y-axis of 0% to 300% to reduce clipping from early outliers.</p>
+    </div>
+
+
+
+
+    <div class="top-chart-grid">
+      <section class="viz-card" aria-labelledby="distribution">
+        <div class="viz-head">
+          <h2 id="distribution">Win distribution</h2>
+          <span id="distribution-subtitle">Latest run</span>
+        </div>
+        <svg id="distribution-chart" viewBox="0 0 900 230" preserveAspectRatio="none" aria-label="Distribution of wins chart"></svg>
+      </section>
+
+      <section class="viz-card" aria-labelledby="jackpots">
+        <div class="viz-head">
+          <h2 id="jackpots">High-impact timeline</h2>
+          <span id="rare-subtitle">46x and higher</span>
+        </div>
+        <div class="rare-banner-slot">
+          <div id="rare-empty-banner" class="rare-empty-banner" style="visibility:hidden;">
+            <strong>No high-impact events in this run</strong>
+            <span>No 46x or higher outcomes occurred in this sample.</span>
+          </div>
+        </div>
+        <svg id="rare-chart" viewBox="0 0 900 230" preserveAspectRatio="none" aria-label="Rare win timeline chart"></svg>
+        <p class="chart-note" id="rare-note"></p>
+      </section>
+    </div>
+
+    <h2 id="rtp">RTP comparison</h2>
+    <table class="table">
+      <tr><th>Metric</th><th>Value</th></tr>
+      <tr><td>Theoretical weighted-pool RTP</td><td>96.18%</td></tr>
+      <tr><td>Simulated RTP</td><td id="table-sim-rtp">-</td></tr>
+      <tr><td>Difference</td><td id="table-diff">-</td></tr>
+    </table>
+    <div class="note">
+      A 1,000-spin sample is useful for demonstration, but it is still a small sample. Large wins from rare symbols
+      can move the observed RTP significantly.
+    </div>
+
+    <h2 id="outcomes">Outcome breakdown</h2>
+    <table class="table">
+      <tr><th>Outcome</th><th>Count</th><th>% of spins</th><th>Returned</th></tr>
+      <tr><td>Three of a kind</td><td id="out-win-count">-</td><td id="out-win-pct">-</td><td id="out-win-return">-</td></tr>
+      <tr><td>Push</td><td id="out-push-count">-</td><td id="out-push-pct">-</td><td id="out-push-return">-</td></tr>
+      <tr><td>No win</td><td id="out-loss-count">-</td><td id="out-loss-pct">-</td><td>0</td></tr>
+    </table>
+
+    <h3>Three-of-a-kind by symbol</h3>
+    <table class="table" id="symbol-table">
+      <tr><th>Symbol</th><th>Hits</th><th>Payout multiplier</th><th>Total returned</th></tr>
+    </table>
+
+    <h2 id="frequency">Expected frequency</h2>
+    <p>
+      These figures explain why the high-impact timeline may be empty in many 1,000-spin runs, while still being useful
+      when a higher multiplier occurs.
+    </p>
+    <table class="table">
+      <tr><th>Event type</th><th>Approx. expected frequency</th></tr>
+      <tr><td>46x or higher high-impact win</td><td>3.470 per 1,000 spins</td></tr>
+      <tr><td>172x or higher rare win</td><td>0.183 per 1,000 spins</td></tr>
+      <tr><td>572x jackpot</td><td>0.000751 per 1,000 spins</td></tr>
+      <tr><td>572x jackpot</td><td>Approximately 1 per 1,331,000 spins</td></tr>
+    </table>
+
+    <h2 id="log">Sample spin log</h2>
+    <p>The table shows the first 25 spins from the latest run. The full 1,000-row log is intentionally not shown by default.</p>
+    <table class="table" id="log-table">
+      <tr><th>Spin</th><th>Symbols</th><th>Outcome</th><th>Payout</th><th>Cumulative RTP</th></tr>
+    </table>
+
+    <details class="details">
+      <summary>Show method</summary>
+      <h2 id="method">Method</h2>
+      <p>The simulation uses the same simplified logic as the sample game:</p>
+      <ul>
+        <li>Three reels.</li>
+        <li>Each reel draws one symbol from the weighted symbol pool.</li>
+        <li>Three matching symbols pay the defined multiplier.</li>
+        <li>The first two matching symbols return the bet as a push.</li>
+        <li>All other outcomes return zero.</li>
+      </ul>
+      <pre class="code">if reel1 == reel2 == reel3:
+    payout = bet × symbol_multiplier
+elif reel1 == reel2:
+    payout = bet
+else:
+    payout = 0</pre>
+      <p>
+        The simulation is an illustrative verification tool. It does not replace a certified RTP calculation tied to
+        the exact production game model.
+      </p>
+    </details>
+  </article>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">Documentation sample: interactive 1000-spin simulation, RTP comparison and test evidence.</div>
+</footer>
+
+<script>
+const SYMBOLS = [
+  {label:'Red', id:'red', weight:30, payout:11},
+  {label:'Orange', id:'orange', weight:25, payout:17},
+  {label:'Yellow', id:'yellow', weight:20, payout:29},
+  {label:'Green', id:'green', weight:15, payout:46},
+  {label:'Blue', id:'blue', weight:10, payout:86},
+  {label:'Purple', id:'purple', weight:6, payout:172},
+  {label:'Pink', id:'pink', weight:3, payout:343},
+  {label:'White', id:'white', weight:1, payout:572}
+];
+
+const TOTAL_WEIGHT = SYMBOLS.reduce((sum, s) => sum + s.weight, 0);
+const THEORETICAL_RTP = SYMBOLS.reduce((sum, s) => {
+  const p = s.weight / TOTAL_WEIGHT;
+  return sum + (p * p * p * s.payout) + (p * p * (1 - p));
+}, 0) * 100;
+
+const PAYOUT_BUCKETS = [
+  {label:'No win', key:'0', multiplier:0},
+  {label:'Push', key:'1', multiplier:1},
+  {label:'11x', key:'11', multiplier:11},
+  {label:'17x', key:'17', multiplier:17},
+  {label:'29x', key:'29', multiplier:29},
+  {label:'46x', key:'46', multiplier:46},
+  {label:'86x', key:'86', multiplier:86},
+  {label:'172x', key:'172', multiplier:172},
+  {label:'343x', key:'343', multiplier:343},
+  {label:'572x', key:'572', multiplier:572}
+];
+
+function drawSymbol() {
+  const roll = Math.random() * TOTAL_WEIGHT;
+  let acc = 0;
+  for (const s of SYMBOLS) {
+    acc += s.weight;
+    if (roll < acc) return s;
+  }
+  return SYMBOLS[SYMBOLS.length - 1];
+}
+
+function simulate(spins, bet) {
+  const symbolHits = {};
+  SYMBOLS.forEach(s => symbolHits[s.id] = {label:s.label, payout:s.payout, hits:0, returned:0});
+
+  const bucketCounts = {};
+  PAYOUT_BUCKETS.forEach(b => bucketCounts[b.key] = 0);
+
+  let totalReturned = 0;
+  let wins = 0;
+  let pushes = 0;
+  let losses = 0;
+  let jackpots = 0;
+  let maxSinglePayout = 0;
+  let winReturned = 0;
+  let pushReturned = 0;
+  const log = [];
+  const rtpSeries = [];
+  const highImpactSpins = [];
+  const rareSpins = [];
+  const jackpotSpins = [];
+
+  for (let i = 1; i <= spins; i++) {
+    const r1 = drawSymbol();
+    const r2 = drawSymbol();
+    const r3 = drawSymbol();
+
+    let outcome = 'No win';
+    let payout = 0;
+    let multiplier = 0;
+
+    if (r1.id === r2.id && r2.id === r3.id) {
+      multiplier = r1.payout;
+      payout = bet * multiplier;
+      outcome = 'Win - 3x ' + r1.label;
+      wins++;
+      winReturned += payout;
+      symbolHits[r1.id].hits++;
+      symbolHits[r1.id].returned += payout;
+      bucketCounts[String(multiplier)]++;
+
+      if (multiplier >= 46) {
+        highImpactSpins.push({spin: i, multiplier, label: r1.label});
+      }
+      if (multiplier >= 172) {
+        rareSpins.push({spin: i, multiplier, label: r1.label});
+      }
+      if (multiplier === 572) {
+        jackpots++;
+        jackpotSpins.push(i);
+      }
+    } else if (r1.id === r2.id) {
+      multiplier = 1;
+      payout = bet;
+      outcome = 'Push';
+      pushes++;
+      pushReturned += payout;
+      bucketCounts['1']++;
+    } else {
+      losses++;
+      bucketCounts['0']++;
+    }
+
+    if (payout > maxSinglePayout) maxSinglePayout = payout;
+
+    totalReturned += payout;
+    const cumulativeRtp = (totalReturned / (i * bet)) * 100;
+    rtpSeries.push(cumulativeRtp);
+
+    if (i <= 25) {
+      log.push({
+        spin: i,
+        symbols: r1.label + ' / ' + r2.label + ' / ' + r3.label,
+        outcome,
+        payout,
+        cumulativeRtp
+      });
+    }
+  }
+
+  return {
+    spins,
+    bet,
+    totalWagered: spins * bet,
+    totalReturned,
+    simulatedRtp: (totalReturned / (spins * bet)) * 100,
+    wins,
+    pushes,
+    losses,
+    jackpots,
+    maxSinglePayout,
+    winReturned,
+    pushReturned,
+    symbolHits,
+    bucketCounts,
+    highImpactSpins,
+    rareSpins,
+    jackpotSpins,
+    rtpSeries,
+    log
+  };
+}
+
+function fmtNumber(n) {
+  return Math.round(n).toLocaleString('en-US');
+}
+function fmtPct(n) {
+  return n.toFixed(2) + '%';
+}
+function setText(id, value) {
+  document.getElementById(id).textContent = value;
+}
+
+function render(result) {
+  const diff = result.simulatedRtp - THEORETICAL_RTP;
+
+  setText('kpi-spins', fmtNumber(result.spins));
+  setText('kpi-wagered', fmtNumber(result.totalWagered));
+  setText('kpi-returned', fmtNumber(result.totalReturned));
+  setText('kpi-rtp', fmtPct(result.simulatedRtp));
+  setText('kpi-diff', (diff >= 0 ? '+' : '') + diff.toFixed(2) + ' pp');
+  setText('kpi-wins', fmtNumber(result.wins));
+  setText('kpi-pushes', fmtNumber(result.pushes));
+  setText('kpi-jackpots', fmtNumber(result.jackpots));
+  setText('kpi-max-win', fmtNumber(result.maxSinglePayout));
+  setText('table-sim-rtp', fmtPct(result.simulatedRtp));
+  setText('table-diff', (diff >= 0 ? '+' : '') + diff.toFixed(2) + ' percentage points');
+
+  setText('out-win-count', fmtNumber(result.wins));
+  setText('out-win-pct', fmtPct((result.wins / result.spins) * 100));
+  setText('out-win-return', fmtNumber(result.winReturned));
+
+  setText('out-push-count', fmtNumber(result.pushes));
+  setText('out-push-pct', fmtPct((result.pushes / result.spins) * 100));
+  setText('out-push-return', fmtNumber(result.pushReturned));
+
+  setText('out-loss-count', fmtNumber(result.losses));
+  setText('out-loss-pct', fmtPct((result.losses / result.spins) * 100));
+
+  renderSymbolTable(result);
+  renderLog(result.log);
+  renderChart(result.rtpSeries);
+  renderDistributionChart(result);
+  renderRareTimeline(result);
+}
+
+function renderSymbolTable(result) {
+  const table = document.getElementById('symbol-table');
+  table.innerHTML = '<tr><th>Symbol</th><th>Hits</th><th>Payout multiplier</th><th>Total returned</th></tr>';
+  for (const s of SYMBOLS) {
+    const row = result.symbolHits[s.id];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${row.label}</td><td>${fmtNumber(row.hits)}</td><td>${row.payout}x</td><td>${fmtNumber(row.returned)}</td>`;
+    table.appendChild(tr);
+  }
+}
+
+function renderLog(log) {
+  const table = document.getElementById('log-table');
+  table.innerHTML = '<tr><th>Spin</th><th>Symbols</th><th>Outcome</th><th>Payout</th><th>Cumulative RTP</th></tr>';
+  for (const row of log) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${row.spin}</td><td>${row.symbols}</td><td>${row.outcome}</td><td>${fmtNumber(row.payout)}</td><td>${fmtPct(row.cumulativeRtp)}</td>`;
+    table.appendChild(tr);
+  }
+}
+
+function renderChart(series) {
+  const svg = document.getElementById('rtp-chart');
+  const w = 900;
+  const h = 260;
+  const padL = 45;
+  const padR = 12;
+  const padT = 16;
+  const padB = 28;
+
+  const startSpin = Math.min(10, Math.max(1, series.length));
+  const displaySeries = series.slice(startSpin - 1);
+
+  const maxY = 300;
+  const minY = 0;
+
+  function x(i) {
+    return padL + (i / Math.max(1, displaySeries.length - 1)) * (w - padL - padR);
+  }
+  function y(v) {
+    const clamped = Math.max(minY, Math.min(maxY, v));
+    return padT + (1 - ((clamped - minY) / (maxY - minY))) * (h - padT - padB);
+  }
+
+  let path = '';
+  displaySeries.forEach((v, i) => {
+    path += (i === 0 ? 'M' : 'L') + x(i).toFixed(2) + ' ' + y(v).toFixed(2) + ' ';
+  });
+
+  const targetY = y(THEORETICAL_RTP);
+  const gridSteps = [0, 75, 150, 225, 300];
+  const grid = gridSteps.map(v => {
+    const yy = y(v);
+    return `<line x1="${padL}" y1="${yy}" x2="${w-padR}" y2="${yy}" stroke="#e2ddd4" stroke-width="1"></line>
+            <text x="8" y="${yy+4}" font-size="11" fill="#66635d">${v}%</text>`;
+  }).join('');
+
+  svg.innerHTML = `
+    <rect x="0" y="0" width="${w}" height="${h}" fill="#fff"></rect>
+    ${grid}
+    <line x1="${padL}" y1="${targetY}" x2="${w-padR}" y2="${targetY}" stroke="#8a6f3e" stroke-width="2" stroke-dasharray="6 6"></line>
+    <path d="${path}" fill="none" stroke="#171717" stroke-width="2"></path>
+    <line x1="${padL}" y1="${h-padB}" x2="${w-padR}" y2="${h-padB}" stroke="#d7d1c7"></line>
+    <text x="${padL}" y="${h-8}" font-size="11" fill="#66635d">Spin ${startSpin}</text>
+    <text x="${w-82}" y="${h-8}" font-size="11" fill="#66635d">Spin ${series.length}</text>
+  `;
+}
+
+function renderDistributionChart(result) {
+  const svg = document.getElementById('distribution-chart');
+  const subtitle = document.getElementById('distribution-subtitle');
+  subtitle.textContent = `${fmtNumber(result.spins)} spins`;
+
+  const w = 900;
+  const h = 230;
+  const padL = 44;
+  const padR = 18;
+  const padT = 20;
+  const padB = 44;
+
+  const buckets = PAYOUT_BUCKETS.map(b => ({
+    ...b,
+    count: result.bucketCounts[b.key] || 0
+  }));
+
+  const maxCount = Math.max(1, ...buckets.map(b => b.count));
+  const plotW = w - padL - padR;
+  const plotH = h - padT - padB;
+  const step = plotW / buckets.length;
+  const barW = Math.min(46, step * 0.55);
+
+  function y(v) {
+    return padT + (1 - (v / maxCount)) * plotH;
+  }
+
+  let grid = '';
+  const steps = 3;
+  for (let i = 0; i <= steps; i++) {
+    const value = Math.round((maxCount / steps) * i);
+    const yy = y(value);
+    grid += `<line x1="${padL}" y1="${yy}" x2="${w-padR}" y2="${yy}" stroke="#ece7de" stroke-width="1"></line>
+             <text x="10" y="${yy+4}" font-size="11" fill="#66635d">${value}</text>`;
+  }
+
+  let bars = '';
+  buckets.forEach((b, i) => {
+    const xx = padL + i * step + (step - barW) / 2;
+    const yy = y(b.count);
+    const hh = Math.max(1, h - padB - yy);
+    const isJackpot = b.multiplier === 572;
+    const isZero = b.count === 0;
+    const fill = isJackpot ? '#8a6f3e' : (b.multiplier >= 172 ? '#7a6337' : '#343434');
+    const opacity = isZero ? 0.25 : (b.multiplier <= 1 ? 0.72 : 0.9);
+
+    bars += `<rect x="${xx}" y="${yy}" width="${barW}" height="${hh}" rx="3" fill="${fill}" opacity="${opacity}"></rect>`;
+
+    if (b.count > 0) {
+      bars += `<text x="${xx + barW/2}" y="${Math.max(12, yy - 7)}" text-anchor="middle" font-size="11" fill="#4f4b45">${b.count}</text>`;
+    }
+
+    bars += `<text x="${xx + barW/2}" y="${h-21}" text-anchor="middle" font-size="10" fill="#66635d">${b.label}</text>`;
+  });
+
+  svg.innerHTML = `
+    <rect x="0" y="0" width="${w}" height="${h}" fill="#fff"></rect>
+    ${grid}
+    ${bars}
+    <line x1="${padL}" y1="${h-padB}" x2="${w-padR}" y2="${h-padB}" stroke="#d7d1c7"></line>
+  `;
+}
+
+function renderRareTimeline(result) {
+  const svg = document.getElementById('rare-chart');
+  const note = document.getElementById('rare-note');
+  const subtitle = document.getElementById('rare-subtitle');
+  const emptyBanner = document.getElementById('rare-empty-banner');
+
+  const w = 900;
+  const h = 230;
+  const padL = 44;
+  const padR = 24;
+  const base = 160;
+
+  subtitle.textContent = `${result.jackpots} jackpot${result.jackpots === 1 ? '' : 's'} · ${result.highImpactSpins.length} high-impact event${result.highImpactSpins.length === 1 ? '' : 's'}`;
+
+  function x(spin) {
+    return padL + ((spin - 1) / Math.max(1, result.spins - 1)) * (w - padL - padR);
+  }
+
+  let content = `
+    <rect x="0" y="0" width="${w}" height="${h}" fill="#fff"></rect>
+    <line x1="${padL}" y1="${base}" x2="${w-padR}" y2="${base}" stroke="#d7d1c7" stroke-width="2"></line>
+    <text x="${padL}" y="${base+28}" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#66635d">Spin 1</text>
+    <text x="${w-82}" y="${base+28}" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#66635d">Spin ${result.spins}</text>
+  `;
+
+  if (result.highImpactSpins.length === 0) {
+    emptyBanner.style.visibility = 'visible';
+    note.textContent = 'No 46x, 86x, 172x, 343x or 572x outcomes occurred in this sample.';
+  } else {
+    emptyBanner.style.visibility = 'hidden';
+
+    result.highImpactSpins.forEach(item => {
+      const xx = x(item.spin);
+      const isJackpot = item.multiplier === 572;
+      const isRare = item.multiplier >= 172;
+      const color = isJackpot ? '#8a6f3e' : (isRare ? '#7a6337' : '#343434');
+      const markerY = isJackpot ? 72 : (isRare ? 92 : 110);
+      const r = isJackpot ? 7 : (isRare ? 5.5 : 4.2);
+
+      content += `<line x1="${xx}" y1="${base}" x2="${xx}" y2="${markerY}" stroke="${color}" stroke-width="${isJackpot ? 2.5 : 1.5}"></line>`;
+      content += `<circle cx="${xx}" cy="${markerY}" r="${r}" fill="${color}"></circle>`;
+    });
+
+    note.textContent = `High-impact wins: ${result.highImpactSpins.length}. Rare wins 172x+: ${result.rareSpins.length}. Jackpot hits: ${result.jackpots}.`;
+  }
+
+  svg.innerHTML = content;
+}
+
+function runFromInputs() {
+  const spins = Math.max(10, Math.min(100000, parseInt(document.getElementById('spin-count').value, 10) || 1000));
+  const bet = Math.max(1, Math.min(10000, parseInt(document.getElementById('bet-size').value, 10) || 10));
+  document.getElementById('spin-count').value = spins;
+  document.getElementById('bet-size').value = bet;
+  render(simulate(spins, bet));
+}
+
+document.getElementById('run-btn').addEventListener('click', runFromInputs);
+document.getElementById('reset-btn').addEventListener('click', () => {
+  document.getElementById('spin-count').value = 1000;
+  document.getElementById('bet-size').value = 10;
+  runFromInputs();
+});
+
+runFromInputs();
+</script>
+</body>
+</html>

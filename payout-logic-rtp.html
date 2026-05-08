@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payout Logic / RTP</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="index.html">iGaming Documentation Portfolio</a>
+    <nav class="links">
+      <a href="index.html">Overview</a>
+      <a href="playable-prototype.html">Prototype</a>
+      <a href="game-rules-paytable.html">Rules</a>
+      <a href="payout-logic-rtp.html">RTP</a>
+      <a href="simulation-rtp-verification.html">Simulation</a>
+      <a href="technical-game-spec.html">Spec</a>
+      <a href="compliance-malta.html">Compliance</a>
+      <a href="verification.html">Verification</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+<section class="hero">
+  <div class="container">
+    <div class="kicker">03 / RTP</div>
+    <h1>Payout Logic / RTP Calculation</h1>
+    <p class="lead">Calculation method for the sample game’s theoretical weighted-pool RTP.</p>
+  </div>
+</section>
+<section class="container layout">
+  <aside class="sidebar">
+    <a href="#model">Model</a>
+    <a href="#symbols">Symbols</a>
+    <a href="#formula">Formula</a>
+    <a href="#calculation">Calculation</a>
+    <a href="#result">Result</a>
+    <a href="#certification">Certification note</a>
+  </aside>
+  <article class="article">
+    <h2 id="model">Model</h2>
+    <p>
+      This calculation treats each reel as an independent draw from the same weighted symbol pool.
+      Total symbol weight is 110. Payouts are expressed as bet multipliers, so bet size does not change RTP.
+    </p>
+    <div class="note">
+      <strong>Model scope:</strong> The RTP calculation and simulation use the weighted-pool model and payout rules from
+      the sample game. The embedded playable prototype may show a slightly different exact strip RTP because it generates
+      80-position reel strips on page load.
+    </div>
+
+    <h2 id="symbols">Symbols</h2>
+    <table class="table">
+      <tr><th>Symbol</th><th>Weight</th><th>Probability</th><th>Payout</th></tr>
+<tr><td>Red</td><td>30</td><td>0.272727</td><td>11x</td></tr>
+<tr><td>Orange</td><td>25</td><td>0.227273</td><td>17x</td></tr>
+<tr><td>Yellow</td><td>20</td><td>0.181818</td><td>29x</td></tr>
+<tr><td>Green</td><td>15</td><td>0.136364</td><td>46x</td></tr>
+<tr><td>Blue</td><td>10</td><td>0.090909</td><td>86x</td></tr>
+<tr><td>Purple</td><td>6</td><td>0.054545</td><td>172x</td></tr>
+<tr><td>Pink</td><td>3</td><td>0.027273</td><td>343x</td></tr>
+<tr><td>White</td><td>1</td><td>0.009091</td><td>572x</td></tr>
+    </table>
+
+    <h2 id="formula">Formula</h2>
+    <pre class="code">p = symbol weight / total symbol weight
+
+Three-of-a-kind contribution:
+p × p × p × payout_multiplier
+
+Push contribution:
+p × p × (1 - p) × 1
+
+Total expected return:
+sum(three-of-a-kind contributions) + sum(push contributions)
+
+RTP:
+total expected return × 100</pre>
+
+    <h2 id="calculation">Calculation</h2>
+    <table class="table">
+      <tr><th>Symbol</th><th>Weight</th><th>p</th><th>Payout</th><th>3-kind EV</th><th>Push EV</th></tr>
+      <tr><td>Red</td><td>30</td><td>0.272727</td><td>11x</td><td>0.223140</td><td>0.054095</td></tr>
+<tr><td>Orange</td><td>25</td><td>0.227273</td><td>17x</td><td>0.199568</td><td>0.039914</td></tr>
+<tr><td>Yellow</td><td>20</td><td>0.181818</td><td>29x</td><td>0.174305</td><td>0.027047</td></tr>
+<tr><td>Green</td><td>15</td><td>0.136364</td><td>46x</td><td>0.116642</td><td>0.016059</td></tr>
+<tr><td>Blue</td><td>10</td><td>0.090909</td><td>86x</td><td>0.064613</td><td>0.007513</td></tr>
+<tr><td>Purple</td><td>6</td><td>0.054545</td><td>172x</td><td>0.027913</td><td>0.002813</td></tr>
+<tr><td>Pink</td><td>3</td><td>0.027273</td><td>343x</td><td>0.006958</td><td>0.000724</td></tr>
+<tr><td>White</td><td>1</td><td>0.009091</td><td>572x</td><td>0.000430</td><td>0.000082</td></tr>
+    </table>
+
+    <h2 id="result">Result</h2>
+    <table class="table">
+      <tr><th>Component</th><th>Expected return</th></tr>
+      <tr><td>Three-of-a-kind payouts</td><td>0.813569</td></tr>
+      <tr><td>Push returns</td><td>0.148246</td></tr>
+      <tr><td>Total expected return per bet</td><td>0.961815</td></tr>
+      <tr><td>Theoretical weighted-pool RTP</td><td>96.18%</td></tr>
+    </table>
+
+    <div class="note">
+      Example: with a 10 credit bet, the theoretical expected return is approximately 9.62 credits over a very large number of spins.
+    </div>
+
+    <h2 id="certification">Certification note</h2>
+    <p>
+      The RTP value must be traceable to the exact game model being certified. If the product uses fixed reel strips,
+      the RTP must be calculated from those strips. If the product uses weighted outcome generation, the certified model must define
+      the weighting and selection process.
+    </p>
+    <p>
+      The embedded prototype builds random 80-position strips on page load and guarantees at least one occurrence of each symbol.
+      Therefore, the exact strip RTP shown in the prototype can differ slightly from the weighted-pool RTP above.
+    </p>
+  </article>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">Documentation sample: slot rules, payout logic, RTP, technical specification, MGA-oriented compliance and Verification evidence.</div>
+</footer>
+
+</body>
+</html>

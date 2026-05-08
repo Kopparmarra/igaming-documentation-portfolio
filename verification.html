@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verification</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="index.html">iGaming Documentation Portfolio</a>
+    <nav class="links">
+      <a href="index.html">Overview</a>
+      <a href="playable-prototype.html">Prototype</a>
+      <a href="game-rules-paytable.html">Rules</a>
+      <a href="payout-logic-rtp.html">RTP</a>
+      <a href="simulation-rtp-verification.html">Simulation</a>
+      <a href="technical-game-spec.html">Spec</a>
+      <a href="compliance-malta.html">Compliance</a>
+      <a href="verification.html">Verification</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+<section class="hero">
+  <div class="container">
+    <div class="kicker">07 / Verification</div>
+    <h1>Verification</h1>
+    <p class="lead">
+      A traceability-focused view showing how documented rules, payout logic, simulation and implementation behavior can be verified.
+    </p>
+  </div>
+</section>
+
+<section class="container layout">
+  <aside class="sidebar">
+    <a href="#objective">Objective</a>
+    <a href="#traceability">Traceability matrix</a>
+    <a href="#test-cases">Key verification checks</a>
+    <a href="#evidence">Evidence summary</a>
+    <a href="#limitations">Limitations</a>
+  </aside>
+
+  <article class="article">
+    <h2 id="objective">Objective</h2>
+    <p>
+      The objective is to verify that the sample game behaves consistently with the documentation:
+      player-facing rules, paytable, payout logic, balance handling, RTP model and simulation results.
+    </p>
+    <div class="note">
+      This page is intentionally traceability-focused rather than a broad QA checklist. It shows how each documented
+      behavior can be linked to a verification method and evidence source.
+    </div>
+
+    <h2 id="traceability">Traceability matrix</h2>
+    <table class="table">
+      <tr><th>Requirement / rule</th><th>Verification method</th><th>Evidence</th></tr>
+      <tr>
+        <td>Three matching symbols pay the defined multiplier.</td>
+        <td>Review payout logic and run controlled/manual outcome checks.</td>
+        <td>Rules / Paytable, Payout Logic / RTP, Technical Spec.</td>
+      </tr>
+      <tr>
+        <td>First two matching symbols return the bet as a push.</td>
+        <td>Review conditional result logic and verify sample outcomes.</td>
+        <td>Rules / Paytable, Technical Spec.</td>
+      </tr>
+      <tr>
+        <td>No left-to-right match gives no payout.</td>
+        <td>Verify default no-win branch and result messaging.</td>
+        <td>Technical Spec, Prototype.</td>
+      </tr>
+      <tr>
+        <td>Bet is deducted at spin start.</td>
+        <td>Interaction test: start spin and confirm balance update.</td>
+        <td>Prototype, Technical Spec.</td>
+      </tr>
+      <tr>
+        <td>Payout is applied once after result evaluation.</td>
+        <td>Interaction test and duplicate-click check during active spin.</td>
+        <td>Prototype, Technical Spec.</td>
+      </tr>
+      <tr>
+        <td>Weighted-pool RTP is documented and reproducible.</td>
+        <td>Review formula, symbol weights and expected-return calculation.</td>
+        <td>Payout Logic / RTP.</td>
+      </tr>
+      <tr>
+        <td>Simulation uses the same payout model as the RTP calculation.</td>
+        <td>Compare simulation assumptions against RTP model and result logic.</td>
+        <td>Simulation / RTP Verification.</td>
+      </tr>
+      <tr>
+        <td>Player-facing rules are easy to access.</td>
+        <td>UI review of the prototype rules view and rules documentation.</td>
+        <td>Prototype, Rules / Paytable, Compliance Documentation.</td>
+      </tr>
+    </table>
+
+    <h2 id="test-cases">Key verification checks</h2>
+    <table class="table">
+      <tr><th>Check</th><th>Expected result</th></tr>
+      <tr><td>Start spin with sufficient balance</td><td>Bet is deducted and reels start spinning.</td></tr>
+      <tr><td>Start spin with insufficient balance</td><td>Spin is blocked and a message is shown.</td></tr>
+      <tr><td>Repeated spin input during active spin</td><td>No duplicate spin or duplicate payout occurs.</td></tr>
+      <tr><td>Three-of-a-kind result</td><td>Correct multiplier is applied to the selected bet.</td></tr>
+      <tr><td>Push result</td><td>The original bet is returned.</td></tr>
+      <tr><td>No-win result</td><td>No payout is added.</td></tr>
+      <tr><td>1,000-spin simulation</td><td>Observed RTP varies, but uses the documented weighted-pool model.</td></tr>
+      <tr><td>High-impact timeline</td><td>46x+ outcomes are plotted when they occur; jackpot remains separately counted.</td></tr>
+    </table>
+
+    <h2 id="evidence">Evidence summary</h2>
+    <table class="table">
+      <tr><th>Evidence source</th><th>What it verifies</th></tr>
+      <tr><td><a href="game-rules-paytable.html">Game Rules / Paytable</a></td><td>Player-facing wording, outcomes and paytable.</td></tr>
+      <tr><td><a href="payout-logic-rtp.html">Payout Logic / RTP</a></td><td>Symbol weights, probabilities, payout formula and theoretical RTP.</td></tr>
+      <tr><td><a href="simulation-rtp-verification.html">Simulation / RTP Verification</a></td><td>Observed RTP, variance, win distribution and high-impact events.</td></tr>
+      <tr><td><a href="technical-game-spec.html">Technical Game Specification</a></td><td>State flow, result evaluation and balance handling.</td></tr>
+      <tr><td><a href="compliance-malta.html">Compliance Documentation</a></td><td>Evidence package, documentation controls and change impact.</td></tr>
+    </table>
+
+    <h2 id="limitations">Limitations</h2>
+    <p>
+      This verification page is based on a portfolio prototype and does not replace formal certification testing,
+      independent test lab review, certified RNG validation or production release controls.
+    </p>
+  </article>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">Documentation sample: slot rules, payout logic, RTP, simulation, technical specification, compliance and verification evidence.</div>
+</footer>
+
+</body>
+</html>

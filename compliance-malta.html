@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compliance Documentation – Malta / MGA</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="index.html">iGaming Documentation Portfolio</a>
+    <nav class="links">
+      <a href="index.html">Overview</a>
+      <a href="playable-prototype.html">Prototype</a>
+      <a href="game-rules-paytable.html">Rules</a>
+      <a href="payout-logic-rtp.html">RTP</a>
+      <a href="simulation-rtp-verification.html">Simulation</a>
+      <a href="technical-game-spec.html">Spec</a>
+      <a href="compliance-malta.html">Compliance</a>
+      <a href="verification.html">Verification</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+<section class="hero">
+  <div class="container">
+    <div class="kicker">05 / Compliance documentation</div>
+    <h1>Compliance Documentation – Sample Jurisdiction: Malta / MGA</h1>
+    <p class="lead">
+      Documentation structure for a slot game using Malta / MGA as the sample regulated iGaming framework.
+    </p>
+  </div>
+</section>
+<section class="container layout">
+  <aside class="sidebar">
+    <a href="#purpose">Purpose</a>
+    <a href="#context">Regulatory context</a>
+    <a href="#package">Evidence package</a>
+    <a href="#matrix">Control matrix</a>
+    <a href="#rtp-control">RTP control</a>
+    <a href="#implementation">Rules vs implementation</a>
+    <a href="#change-control">Change control</a>
+    <a href="#references">Official references</a>
+    <a href="#limitations">Limitations</a>
+  </aside>
+  <article class="article">
+    <h2 id="purpose">Purpose</h2>
+    <p>
+      This page uses Malta / MGA as a sample regulatory context to demonstrate how documentation can be structured.
+      It does not interpret legal requirements and is not legal advice.
+    </p>
+
+    <h2 id="context">Regulatory context</h2>
+    <p>
+      Malta / MGA is used as the sample jurisdiction because Malta is a major European iGaming regulatory hub.
+      The documentation approach references common MGA-related themes: authorisation, compliance, player protection,
+      RTP disclosure, responsible gaming, test evidence and controlled change management.
+    </p>
+    <div class="note">
+      <strong>Rules availability note:</strong> the sample game includes a rules view directly from the game interface.
+      This demonstrates the documentation principle that game rules and paytable information should be easy for the player to find.
+    </div>
+
+    <table class="table">
+      <tr><th>Reference area</th><th>Documentation relevance</th></tr>
+      <tr><td>Malta Gaming Authority</td><td>Regulatory authority context for licensed gaming activity.</td></tr>
+      <tr><td>Gaming Compliance and Enforcement Regulations</td><td>Need for documented controls, evidence and follow-up.</td></tr>
+      <tr><td>Gaming Player Protection Regulations / Player Protection Directive</td><td>Player-facing information, responsible gaming and RTP-related communication.</td></tr>
+      <tr><td>RTP minimum</td><td>The sample game RTP of 96.18% should be documented and traceable to the certified model.</td></tr>
+    </table>
+
+    <h2 id="package">Documentation evidence package</h2>
+    <table class="table">
+      <tr><th>Evidence item</th><th>Purpose</th></tr>
+      <tr><td>Game rules</td><td>Shows what the player is told.</td></tr>
+      <tr><td>Paytable</td><td>Shows payouts and win conditions.</td></tr>
+      <tr><td>RTP calculation note</td><td>Shows probability model, assumptions and theoretical return.</td></tr>
+      <tr><td>Technical game specification</td><td>Shows implemented behavior and state flow.</td></tr>
+      <tr><td>Verification evidence</td><td>Shows that rules, payouts and edge cases have been checked.</td></tr>
+      <tr><td>Version / change log</td><td>Shows which game version the evidence applies to.</td></tr>
+      <tr><td>Known limitations</td><td>Separates prototype assumptions from production requirements.</td></tr>
+    </table>
+
+    <h2 id="matrix">MGA-oriented documentation control matrix</h2>
+    <table class="table">
+      <tr><th>Area</th><th>Control</th><th>Evidence</th></tr>
+      <tr><td>RTP</td><td>RTP must be calculated from the exact game model.</td><td>RTP calculation note.</td></tr>
+      <tr><td>Game rules</td><td>Rules must match implemented behavior.</td><td>Rules page + verification matrix.</td></tr>
+      <tr><td>Player information</td><td>RTP and randomness wording must not be misleading.</td><td>Rules text review.</td></tr>
+      <tr><td>Game behavior</td><td>Spin lifecycle and balance updates must be documented.</td><td>Technical game spec.</td></tr>
+      <tr><td>Change control</td><td>Changes to payout, weights or logic require review.</td><td>Change impact table.</td></tr>
+      <tr><td>Test evidence</td><td>Expected outcomes must be verifiable.</td><td>Verification evidence.</td></tr>
+      <tr><td>System review readiness</td><td>Implemented behavior should match submitted documentation and evidence.</td><td>Game spec + Verification evidence + rules/paytable.</td></tr>
+    </table>
+
+    <h2 id="rtp-control">RTP control</h2>
+    <p>
+      The sample game has a theoretical weighted-pool RTP of 96.18%.
+      For certification purposes, the RTP must be tied to the exact model under review:
+      fixed reel strips, weighted outcome generation, or server-side outcome generation.
+    </p>
+    <div class="note">
+      MGA lowered the minimum RTP percentage from 92% to 85% in 2021. This sample game is above that threshold,
+      but the important compliance point is traceability, not only the final percentage.
+    </div>
+
+    <h2 id="implementation">Rules vs implementation consistency</h2>
+    <table class="table">
+      <tr><th>Rule text</th><th>Implementation check</th><th>Evidence</th></tr>
+      <tr><td>Three matching symbols pay multiplier.</td><td>reel1 == reel2 == reel3</td><td>Payout logic / QA test.</td></tr>
+      <tr><td>First two matching symbols return bet.</td><td>reel1 == reel2 and reel3 differs</td><td>Push test.</td></tr>
+      <tr><td>No match gives no payout.</td><td>Else condition.</td><td>No-win test.</td></tr>
+      <tr><td>Bet is deducted at spin start.</td><td>Balance update before reel animation.</td><td>Balance test.</td></tr>
+      <tr><td>Payout is added after result.</td><td>Single payout after evaluation.</td><td>Duplicate-payout test.</td></tr>
+    </table>
+
+    <h2 id="change-control">Change control checklist</h2>
+    <table class="table">
+      <tr><th>Change</th><th>Compliance impact</th></tr>
+      <tr><td>Change symbol weights</td><td>Requires RTP recalculation and updated evidence.</td></tr>
+      <tr><td>Change payout multiplier</td><td>Requires paytable, RTP and rules update.</td></tr>
+      <tr><td>Change win condition</td><td>Requires rules, technical spec and QA update.</td></tr>
+      <tr><td>Change reel generation model</td><td>Requires review of certified game model.</td></tr>
+      <tr><td>Change player-facing wording</td><td>Requires rules and support documentation review.</td></tr>
+    </table>
+
+
+    <h2 id="references">Official MGA references</h2>
+    <p>
+      The links below are used as official reference points for the sample compliance documentation structure.
+      This portfolio does not provide legal advice.
+    </p>
+    <table class="table">
+      <tr><th>Official reference</th><th>Why it is relevant to this portfolio</th></tr>
+      <tr>
+        <td><a href="https://www.mga.org.mt/our-work/regulatory-framework/" target="_blank" rel="noopener">MGA Regulatory Framework</a></td>
+        <td>Overview page for Malta's gaming framework, including regulations and directives relevant to authorisation, compliance and player protection.</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.mga.org.mt/app/uploads/Compliance-Audit-Manual.pdf" target="_blank" rel="noopener">Compliance Audit Manual</a></td>
+        <td>Useful reference for audit evidence, compliance review structure and documented controls.</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.mga.org.mt/mga-issues-revised-system-audit-checklist-and-new-system-review-checklist/" target="_blank" rel="noopener">System Audit / System Review Checklists</a></td>
+        <td>Relevant for showing how implemented systems can be checked against submitted information and regulatory requirements.</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.mga.org.mt/app/uploads/MGA-F-001-System-Documentation-Checklist-v5.xlsx" target="_blank" rel="noopener">System Documentation Checklist</a></td>
+        <td>Directly relevant to this portfolio because it highlights the importance of structured system and product documentation.</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.mga.org.mt/app/uploads/Directive-2-of-2018-Player-Protection-Directive.pdf" target="_blank" rel="noopener">Player Protection Directive</a></td>
+        <td>Relevant for player-facing information, responsible gaming, RTP communication and clarity of rules.</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.mga.org.mt/the-mga-streamlines-the-return-to-player-percentage-applicable-to-both-remote-and-land-based-sectors/" target="_blank" rel="noopener">MGA RTP update</a></td>
+        <td>Reference for the MGA change lowering the minimum RTP percentage from 92% to 85%.</td>
+      </tr>
+    </table>
+
+    <h2 id="limitations">Limitations</h2>
+    <p>
+      This page is not a legal interpretation of Maltese gaming law. It is a portfolio sample that shows how game behavior,
+      payout logic, RTP and test evidence can be structured for a regulated iGaming context.
+    </p>
+  </article>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">Documentation sample: slot rules, payout logic, RTP, technical specification, MGA-oriented compliance and Verification evidence.</div>
+</footer>
+
+</body>
+</html>
