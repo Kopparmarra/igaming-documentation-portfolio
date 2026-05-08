@@ -609,3 +609,30 @@ p{margin:0 0 14px}
 #kpi-diff.diff-neutral{
   color:#1c1c1c;
 }
+
+
+/* v28: robust Difference KPI color state */
+#kpi-diff-box{
+  transition:background-color .2s ease, border-color .2s ease;
+}
+#kpi-diff-box.diff-positive{
+  background:#f3faf4 !important;
+  border-color:#b9d8bd !important;
+}
+#kpi-diff-box.diff-negative{
+  background:#fbf3f3 !important;
+  border-color:#dfbaba !important;
+}
+#kpi-diff-box.diff-neutral{
+  background:#f8f6f1 !important;
+  border-color:#d8d0c2 !important;
+}
+#kpi-diff.diff-positive{
+  color:#2f6b3a !important;
+}
+#kpi-diff.diff-negative{
+  color:#8a2e2e !important;
+}
+#kpi-diff.diff-neutral{
+  color:#1c1c1c !important;
+}
