@@ -481,3 +481,34 @@ p{margin:0 0 14px}
   background:transparent;
   box-shadow:none;
 }
+
+
+/* v24: simplify top KPI area to focus on RTP */
+.kpi-grid-primary{
+  grid-template-columns:1.35fr 1.35fr 1fr .8fr;
+  gap:10px;
+  margin:8px 0 14px;
+}
+.kpi-grid-primary .kpi{
+  padding:12px 14px;
+}
+.kpi-grid-primary .kpi span{
+  font-size:12px;
+  white-space:normal;
+}
+.kpi-grid-primary .kpi strong{
+  font-size:22px;
+}
+.kpi-grid-primary .kpi-large{
+  background:#faf7f0;
+  border-color:#d8cdbb;
+}
+.kpi-grid-primary .kpi-large strong{
+  font-size:30px;
+}
+@media(max-width:900px){
+  .kpi-grid-primary{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:520px){
+  .kpi-grid-primary{grid-template-columns:1fr}
+}
