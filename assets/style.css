@@ -545,3 +545,40 @@ p{margin:0 0 14px}
     white-space:normal;
   }
 }
+
+
+/* v26: make KPI labels fully readable while keeping fixed widths */
+.kpi-grid-primary{
+  grid-template-columns:250px 250px 180px 140px;
+  justify-content:start;
+  gap:12px;
+}
+.kpi-grid-primary .kpi{
+  min-height:92px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.kpi-grid-primary .kpi span{
+  font-size:11px;
+  line-height:1.25;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:unset;
+}
+.kpi-grid-primary .kpi strong{
+  white-space:nowrap;
+}
+.kpi-grid-primary .kpi-large strong{
+  font-size:28px;
+}
+@media(max-width:900px){
+  .kpi-grid-primary{
+    grid-template-columns:250px 250px;
+  }
+}
+@media(max-width:520px){
+  .kpi-grid-primary{
+    grid-template-columns:1fr;
+  }
+}
