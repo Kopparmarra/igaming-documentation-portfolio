@@ -337,7 +337,8 @@ function fmtPct(n) {
   return n.toFixed(2) + '%';
 }
 function setText(id, value) {
-  document.getElementById(id).textContent = value;
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
 }
 
 
@@ -366,7 +367,6 @@ function render(result) {
   const diff = result.simulatedRtp - THEORETICAL_RTP;
   setRtpState(diff);
 
-  setText('kpi-spins', fmtNumber(result.spins));
   setText('kpi-rtp', fmtPct(result.simulatedRtp));
   setText('table-sim-rtp', fmtPct(result.simulatedRtp));
   setText('table-diff', (diff >= 0 ? '+' : '') + diff.toFixed(2) + ' percentage points');
