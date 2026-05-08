@@ -718,3 +718,25 @@ p{margin:0 0 14px}
 #kpi-rtp.rtp-neutral{
   color:#1c1c1c !important;
 }
+
+
+/* v45: taller playable prototype frame to accommodate the inline rules panel */
+.prototype-frame-fit iframe{
+  height:1180px;
+}
+@media (max-width: 900px){
+  .prototype-frame-fit iframe{
+    height:1260px;
+  }
+}
+
+
+/* v46: compact prototype frame again because rules now overlay the game */
+.prototype-frame-fit iframe{
+  height:760px;
+}
+@media (max-width: 900px){
+  .prototype-frame-fit iframe{
+    height:760px;
+  }
+}
