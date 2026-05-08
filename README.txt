@@ -151,3 +151,128 @@ Added in v22:
 - QA checklist replaced by a traceability-focused Verification page
 - Navigation updated from QA to Verification
 - Overview wording updated from QA evidence to verification evidence
+
+
+Added in v23:
+- Playable slot prototype now resets on page load
+- Starting balance is always 1000
+- Starting bet size is always 10
+- Previous localStorage bet size/statistics are cleared for a consistent portfolio demo
+
+
+Added in v24:
+- Simplified Key results to focus on Simulated RTP, Theoretical RTP, Difference and Spins
+- Removed Total wagered, Total returned, Wins, Pushes, Jackpots and Highest single payout from the top KPI row
+- Detailed results remain visible in the charts and tables below
+
+
+Added in v25:
+- Key result boxes made slightly wider with fixed widths
+- Top KPI row now uses fixed-width columns so labels fit more reliably
+- Desktop layout stays fixed-width while mobile still collapses responsively
+
+
+Added in v26:
+- Key result boxes widened again
+- KPI labels now wrap normally instead of being clipped
+- Fixed-width layout preserved on desktop
+
+
+Added in v27:
+- Difference KPI now changes color based on result
+- Positive difference = subtle green tint
+- Negative difference = subtle red tint
+- Neutral difference = neutral styling
+
+
+Added in v28:
+- Fixed Difference KPI coloring by using the actual simulatedRtp property in the render function
+- Difference card now gets positive/negative/neutral classes correctly on every simulation run
+
+
+Added in v29:
+- Removed the top Difference KPI card
+- Simulated RTP KPI now gets subtle green/red/neutral styling based on whether it is above or below Theoretical RTP
+- Top KPI row now contains Simulated RTP, Theoretical RTP and Spins
+
+
+Added in v30:
+- Removed the top Spins KPI card
+- Key results now show only Simulated RTP and Theoretical RTP
+- Spins remains visible in the controls above
+
+
+Added in v31:
+- Fixed simulation render after removing the Spins KPI
+- Removed the obsolete kpi-spins update call
+- Made setText() safe when optional UI elements are missing
+
+
+Added in v32:
+- Fixed Simulated RTP red/green state by ensuring both the card ID and JS state function are present
+- Added stronger CSS overrides for positive/negative/neutral RTP state
+
+
+Added in v33:
+- Removed the large black outer background around the slot prototype
+- Outer area now uses a light beige tone so only the actual gameboard stays dark
+- Added a small "96% RTP" badge above the machine
+- Softened the machine shadow slightly
+
+
+Added in v34:
+- Removed the small 96% RTP badge from the slot prototype itself
+- Updated the Prototype page heading to: Playable Slot Prototype (96% RTP)
+
+
+Added in v35:
+- Fully removed leftover 96% RTP badge markup and CSS from slot-prototype.html
+- Kept RTP information only in the Playable Prototype page heading
+
+
+Added in v36:
+- Added cache-busting query string to the prototype iframe: slot-prototype.html?v=36
+- This forces browsers/GitHub Pages to load the updated slot file without the old RTP badge
+
+
+Added in v37:
+- Moved Log and Copy Log into centered controls directly below the slot machine
+- Replaced fixed-position debug buttons with clean inline buttons
+- Increased log window readability: larger font size, more padding, better line spacing
+- Added cache-busting iframe source: slot-prototype.html?v=37
+
+
+Added in v38:
+- Log and Copy Log buttons reinforced as centered controls under the game
+- Increased debug button size slightly
+- Increased log panel text to 14px with more line spacing and padding
+- Added cache-busting iframe source: slot-prototype.html?v=38
+
+
+Added in v39:
+- Removed Log and Copy Log completely from the playable slot prototype
+- Removed debug log box and related debug functions
+- Added cache-busting iframe source: slot-prototype.html?v=39
+
+
+Added in v40:
+- Removed the explanatory beige note box from the Simulation page
+- Simulation page now flows directly from controls to Key results
+
+
+Added in v41:
+- Removed the specific "New runs update..." note from the Simulation page using a targeted match
+
+
+Added in v42:
+- Removed the RTP comparison sidebar link
+- Removed the RTP comparison table from the Simulation page
+- Removed obsolete JS updates for the deleted RTP comparison fields
+
+
+Added in v43:
+- Removed the separate Rules / Paytable page
+- Removed Rules from the main navigation
+- Removed the Rules card from the Overview page
+- Updated internal evidence references to use Payout Logic / RTP instead
+- Renumbered remaining overview cards/page kickers for a tighter structure
