@@ -691,3 +691,30 @@ p{margin:0 0 14px}
     grid-template-columns:1fr;
   }
 }
+
+
+/* v32: robust Simulated RTP red/green state */
+#kpi-rtp-box.rtp-positive{
+  background:#f3faf4 !important;
+  border-color:#9fcaa6 !important;
+}
+#kpi-rtp-box.rtp-negative{
+  background:#fbf0f0 !important;
+  border-color:#d9a8a8 !important;
+}
+#kpi-rtp-box.rtp-neutral{
+  background:#faf7f0 !important;
+  border-color:#d8cdbb !important;
+}
+#kpi-rtp-box.rtp-positive #kpi-rtp,
+#kpi-rtp.rtp-positive{
+  color:#2f6b3a !important;
+}
+#kpi-rtp-box.rtp-negative #kpi-rtp,
+#kpi-rtp.rtp-negative{
+  color:#8a2e2e !important;
+}
+#kpi-rtp-box.rtp-neutral #kpi-rtp,
+#kpi-rtp.rtp-neutral{
+  color:#1c1c1c !important;
+}
